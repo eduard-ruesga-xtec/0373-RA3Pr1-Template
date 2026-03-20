@@ -4,8 +4,9 @@ const button = document.getElementById("checkButton");
 const selects = document.querySelectorAll(".digit-select");
 //amb aquesta comanda busquem els 4 espais de digits
 
-let rondes = 5;
-
+const MAX_INTENTS = 5;
+let rondes = MAX_INTENTS;
+let secret = generarCodi();
 function logTerminal(misatge) {
   terminal.innerHTML += "> " + misatge + "<br>";
 }
@@ -13,6 +14,10 @@ function logTerminal(misatge) {
 
 function actualizarRondes() {
   roundsLeft.textContent = rondes;
+}
+
+function generarCodi() {
+  return Array.from({ length: 4 }, () => Math.floor(Math.random() * 10));
 }
 
 selects.forEach(select => {
@@ -24,6 +29,35 @@ selects.forEach(select => {
     select.appendChild(option);
   }
 });
+
+function validateAttempt(intento) {
+  let pistes = Array(4).fill("×");
+  let usatSecret = Array(4).fill(false);
+  let intentTemporal = [...intento];
+
+  // primera passada: numero correcte i posicio correcta
+  for (let i = 0; i < 4; i++) {
+    if (intentTemporal[i] === secret[i]) {
+      pistes[i] = "1";
+      usatSecret[i] = true;
+      intentTemporal[i] = null;
+    }
+  }
+
+  // segona passada: numero correcte pero en posicio incorrecta
+  for (let i = 0; i < 4; i++) {
+    if (intentTemporal[i] !== null) {
+      let posicio = secret.findIndex((numero, idx) => numero === intentTemporal[i] && !usatSecret[idx]);
+
+      if (posicio !== -1) {
+        pistes[i] = "Ø";
+        usatSecret[posicio] = true;
+      }
+    }
+  }
+
+  return pistes;
+}
 
 button.addEventListener("click", () => {
 
@@ -39,14 +73,21 @@ button.addEventListener("click", () => {
   logTerminal("Intent: " + intento.join(", "));
   // mostrem l'intent a la terminal
 
-  rondes--;
-  // restem una ronda
-  actualizarRondes();
-  //actualitzem el comptador
-
-  if (typeof validateAttempt === "function") {
     const pistes = validateAttempt(intento);
     logTerminal("Pistes: " + pistes.join(", "));
+
+    if (pistes.every(pista => pista === "1")) {
+        logTerminal("Has guanyat!");
+        button.disabled = true;
+        return;
+}
+
+  rondes--;
+  actualizarRondes();
+
+  if (rondes === 0) {
+    logTerminal("Has perdut! El codi era: " + secret.join(""));
+    button.disabled = true;
   }
 });
 
