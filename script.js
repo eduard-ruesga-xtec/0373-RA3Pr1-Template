@@ -30,6 +30,21 @@ button.addEventListener("click", () => {
     const intento = Array.from(selects).map(select => Number(select.value));
     // guardem els valors  en la array, per a mes endevant fer que si els valor guardats no coincideixin es restin intents
 
-  console.log(intento);
+  logTerminal("Intent: " + intento.join(", "));
+  // mostrem l'intent a la terminal
 
+  rondes--;
+  // restem una ronda
+  actualizarRondes();
+  //actualitzem el comptador
+
+  if (typeof validateAttempt === "function") {
+    const pistes = validateAttempt(intento);
+    logTerminal("Pistes: " + pistes.join(", "));
+  }
 });
+
+// missatges inicials
+logTerminal("Sistema iniciat");
+logTerminal("Introdueix un codi de 4 dígits");
+actualizarRondes();
