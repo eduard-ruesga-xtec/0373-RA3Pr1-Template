@@ -27,6 +27,12 @@ selects.forEach(select => {
 
 button.addEventListener("click", () => {
 
+    //aquesta funcio es per a que el contador no passi per sota del 0 ya que es posa negatiu en les proves
+    if (rondes <= 0) {
+        logTerminal("No queden més intents");
+        return;
+}
+
     const intento = Array.from(selects).map(select => Number(select.value));
     // guardem els valors  en la array, per a mes endevant fer que si els valor guardats no coincideixin es restin intents
 
@@ -45,6 +51,6 @@ button.addEventListener("click", () => {
 });
 
 // missatges inicials
-logTerminal("Sistema iniciat");
+logTerminal("joc iniciat");
 logTerminal("Introdueix un codi de 4 dígits");
 actualizarRondes();
