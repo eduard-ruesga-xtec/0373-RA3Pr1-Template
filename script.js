@@ -1,3 +1,8 @@
+const terminal = document.getElementById("terminal");
+function logTerminal(misatge) {
+  terminal.innerHTML += "> " + misatge + "<br>";
+}
+
 const selects = document.querySelectorAll(".digit-select");
 //amb aquesta comanda busquem els 4 espais de digits
 selects.forEach(select => {
