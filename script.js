@@ -1,10 +1,20 @@
 const terminal = document.getElementById("terminal");
+const roundsLeft = document.getElementById("roundsLeft");
+const button = document.getElementById("checkButton");
+const selects = document.querySelectorAll(".digit-select");
+//amb aquesta comanda busquem els 4 espais de digits
+
+let rondes = 5;
+
 function logTerminal(misatge) {
   terminal.innerHTML += "> " + misatge + "<br>";
 }
 
-const selects = document.querySelectorAll(".digit-select");
-//amb aquesta comanda busquem els 4 espais de digits
+
+function actualizarRondes() {
+  roundsLeft.textContent = rondes;
+}
+
 selects.forEach(select => {
   for (let i = 0; i <= 9; i++) {
 //aixo crea els numeros que utilitzarem en el desplegable
@@ -14,8 +24,6 @@ selects.forEach(select => {
     select.appendChild(option);
   }
 });
-
-const button = document.getElementById("checkButton");
 
 button.addEventListener("click", () => {
 
