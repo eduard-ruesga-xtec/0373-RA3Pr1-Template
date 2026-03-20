@@ -47,10 +47,11 @@ button.addEventListener("click", () => {
     logTerminal("Pistes: " + pistes.join(", "));
   }
 
-  if (typeof isWinningAttempt === "function" && typeof validateAttempt === "function") {
+  if (typeof validateAttempt  === "function") {
     const pistes = validateAttempt(intento);
+    logTerminal("Pistes: " + pistes.join(", "));
 
-    if (isWinningAttempt(pistes)) {
+    if (typeof isWinningAttempt === "function" && isWinningAttempt(pistes)) {
       logTerminal("Has guanyat!");
       button.disabled = true;
       return;
